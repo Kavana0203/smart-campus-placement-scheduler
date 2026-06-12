@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Drive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 450px;
+        }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #9C27B0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #7B1FA2; }
+        .success { color: green; text-align: center; margin-bottom: 10px; }
+        .error { color: red; text-align: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Schedule Placement Drive</h2>
+
+    <p th:if="${success}" class="success" th:text="${success}"></p>
+    <p th:if="${error}" class="error" th:text="${error}"></p>
+
+    <form th:action="@{/admin/drive/schedule}" th:object="${drive}" method="post">
+
+        <div class="form-group">
+            <label>Select Company</label>
+            <select th:field="*{company.id}" required>
+                <option value="">-- Select Company --</option>
+                <option th:each="company : ${companies}"
+                        th:value="${company.id}"
+                        th:text="${company.name}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Drive Date</label>
+            <input type="date" th:field="*{driveDate}" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Venue</label>
+            <input type="text" th:field="*{venue}"
+                   placeholder="e.g. Seminar Hall A" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <select th:field="*{status}">
+                <option value="UPCOMING">Upcoming</option>
+                <option value="ONGOING">Ongoing</option>
+                <option value="COMPLETED">Completed</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea th:field="*{description}"
+                      placeholder="Drive details..." rows="3"
+                      style="resize:none;"></textarea>
+        </div>
+
+        <button type="submit">Schedule Drive</button>
+    </form>
+</div>
+</body>
+</html>

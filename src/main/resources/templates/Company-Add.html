@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Company</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 450px;
+        }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #1976D2; }
+        .success { color: green; text-align: center; margin-bottom: 10px; }
+        .error { color: red; text-align: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Add Company</h2>
+
+    <p th:if="${success}" class="success" th:text="${success}"></p>
+    <p th:if="${error}" class="error" th:text="${error}"></p>
+
+    <form th:action="@{/admin/company/add}" th:object="${company}" method="post">
+
+        <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" th:field="*{name}" placeholder="Enter company name" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea th:field="*{description}" placeholder="About the company"
+                      rows="3" style="resize:none;"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Package Offered (LPA)</label>
+            <input type="number" th:field="*{packageOffered}"
+                   placeholder="e.g. 6.5" step="0.1" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Minimum CGPA Required</label>
+            <input type="number" th:field="*{minCgpa}"
+                   placeholder="e.g. 7.0" step="0.1" min="0" max="10" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Maximum Backlogs Allowed</label>
+            <input type="number" th:field="*{maxBacklogs}"
+                   placeholder="e.g. 0" min="0" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Eligible Branches</label>
+            <input type="text" th:field="*{eligibleBranches}"
+                   placeholder="e.g. CSE,ISE,ECE" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Website</label>
+            <input type="text" th:field="*{website}"
+                   placeholder="e.g. https://company.com"/>
+        </div>
+
+        <button type="submit">Add Company</button>
+    </form>
+</div>
+</body>
+</html>
