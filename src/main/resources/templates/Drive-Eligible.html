@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Eligible Drives</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card h3 {
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .info {
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .no-drives {
+            text-align: center;
+            color: #999;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<h2>Eligible Placement Drives</h2>
+<p class="subtitle"
+   th:text="'Showing drives for: ' + ${student.name} +
+       ' | CGPA: ' + ${student.cgpa} +
+       ' | Branch: ' + ${student.branch}">
+</p>
+
+<div th:if="${#lists.isEmpty(drives)}" class="no-drives">
+    😔 No eligible drives found at the moment!
+</div>
+
+<div th:each="drive : ${drives}" class="card">
+    <h3 th:text="${drive.company.name}">Company Name</h3>
+    <span class="badge" th:text="${drive.status}">UPCOMING</span>
+    <p class="info" th:text="'📅 Date: ' + ${drive.driveDate}"></p>
+    <p class="info" th:text="'📍 Venue: ' + ${drive.venue}"></p>
+    <p class="info"
+       th:text="'💰 Package: ' + ${drive.company.packageOffered} + ' LPA'">
+    </p>
+    <p class="info"
+       th:text="'🎓 Min CGPA: ' + ${drive.company.minCgpa}">
+    </p>
+    <p class="info"
+       th:text="'🌿 Eligible Branches: ' + ${drive.company.eligibleBranches}">
+    </p>
+</div>
+</body>
+</html>

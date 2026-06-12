@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import com.placement.scheduler.Model.Student;
+import java.util.ArrayList;
 
 @Service
 public class DriveService {
@@ -49,5 +51,29 @@ public class DriveService {
 
     public void deleteDrive(Long id) {
         driveRepository.deleteById(id);
+    }
+    // Get eligible drives for a student
+    public List<Drive> getEligibleDrives(Student student) {
+        List<Drive> allDrives = driveRepository.findByStatus("UPCOMING");
+        List<Drive> eligibleDrives = new ArrayList<>();
+
+        for (Drive drive : allDrives) {
+            Company company = drive.getCompany();
+
+            // Check CGPA
+            boolean cgpaOk = student.getCgpa() >= company.getMinCgpa();
+
+            // Check backlogs
+            boolean backlogsOk = student.getBacklogs() <= company.getMaxBacklogs();
+
+            // Check branch
+            boolean branchOk = company.getEligibleBranches()
+                    .contains(student.getBranch());
+
+            if (cgpaOk && backlogsOk && branchOk) {
+                eligibleDrives.add(drive);
+            }
+        }
+        return eligibleDrives;
     }
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.placement.scheduler.Model.Student;
+import com.placement.scheduler.Service.StudentService;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class DriveController {
@@ -16,6 +19,9 @@ public class DriveController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private StudentService studentService;
 
     // Show schedule drive page
     @GetMapping("/admin/drive/schedule")
@@ -50,5 +56,14 @@ public class DriveController {
     public String getUpcomingDrives(Model model) {
         model.addAttribute("drives", driveService.getUpcomingDrives());
         return "drive-list";
+    }
+    // Show eligible drives for a student
+    @GetMapping("/student/drives/eligible/{studentId}")
+    public String getEligibleDrives(@PathVariable Long studentId, Model model) {
+        Student student = studentService.getStudentById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found!"));
+        model.addAttribute("drives", driveService.getEligibleDrives(student));
+        model.addAttribute("student", student);
+        return "drive-eligible";
     }
 }

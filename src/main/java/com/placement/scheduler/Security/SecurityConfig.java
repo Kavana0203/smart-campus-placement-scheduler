@@ -22,7 +22,8 @@ public class SecurityConfig {
                                 "/admin/drives",
                                 "/drives/upcoming",
                                 "/css/**",
-                                "/js/**"
+                                "/js/**",
+                                "/student/drives/eligible/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
