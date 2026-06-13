@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Drives</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .back { display: block; text-align: center; margin-bottom: 15px; }
+        .back a {
+            padding: 8px 16px; background: #2196F3;
+            color: white; text-decoration: none; border-radius: 5px;
+        }
+        table {
+            width: 100%; border-collapse: collapse;
+            background: white; border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #FF9800; color: white;
+            padding: 12px; text-align: left; font-size: 14px;
+        }
+        td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+        tr:hover { background: #f5f5f5; }
+        .badge {
+            padding: 3px 10px; border-radius: 20px;
+            font-size: 12px; font-weight: bold;
+        }
+        .UPCOMING { background: #e3f2fd; color: #2196F3; }
+        .ONGOING { background: #fff3e0; color: #FF9800; }
+        .COMPLETED { background: #e8f5e9; color: #4CAF50; }
+        .empty { text-align: center; padding: 30px; color: #999; }
+    </style>
+</head>
+<body>
+<h2>📅 All Drives</h2>
+<div class="back">
+    <a href="/admin/dashboard">← Back to Dashboard</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Company</th>
+        <th>Date</th>
+        <th>Venue</th>
+        <th>Status</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(drives)}">
+        <td colspan="6" class="empty">No drives scheduled yet!</td>
+    </tr>
+    <tr th:each="drive : ${drives}">
+        <td th:text="${drive.id}"></td>
+        <td th:text="${drive.company.name}"></td>
+        <td th:text="${drive.driveDate}"></td>
+        <td th:text="${drive.venue}"></td>
+        <td>
+                    <span class="badge"
+                          th:classappend="${drive.status}"
+                          th:text="${drive.status}">
+                    </span>
+        </td>
+        <td th:text="${drive.description}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -21,11 +21,12 @@ public class SecurityConfig {
                                 "/admin/companies",
                                 "/admin/drive/schedule",
                                 "/admin/drives",
-                                "/drives/upcoming",
-                                "/css/**",
-                                "/js/**",
+                                "/admin/students",
                                 "/admin/dashboard",
-                                "/student/drives/eligible/**"
+                                "/drives/upcoming",
+                                "/student/drives/eligible/**",
+                                "/css/**",
+                                "/js/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

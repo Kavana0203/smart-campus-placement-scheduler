@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Students</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .back a {
+            padding: 8px 16px;
+            background: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        th {
+            background: #2196F3;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .placed {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .unplaced {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<h2>👥 All Students</h2>
+<div class="back">
+    <a href="/admin/dashboard">← Back to Dashboard</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Branch</th>
+        <th>CGPA</th>
+        <th>Backlogs</th>
+        <th>Phone</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(students)}">
+        <td colspan="8" class="empty">No students registered yet!</td>
+    </tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.branch}"></td>
+        <td th:text="${student.cgpa}"></td>
+        <td th:text="${student.backlogs}"></td>
+        <td th:text="${student.phone}"></td>
+        <td>
+                    <span th:if="${student.placed}"
+                          class="badge placed">Placed</span>
+            <span th:unless="${student.placed}"
+                  class="badge unplaced">Unplaced</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

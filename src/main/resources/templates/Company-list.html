@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Companies</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .back { display: block; text-align: center; margin-bottom: 15px; }
+        .back a {
+            padding: 8px 16px; background: #2196F3;
+            color: white; text-decoration: none; border-radius: 5px;
+        }
+        table {
+            width: 100%; border-collapse: collapse;
+            background: white; border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #9C27B0; color: white;
+            padding: 12px; text-align: left; font-size: 14px;
+        }
+        td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+        tr:hover { background: #f5f5f5; }
+        .empty { text-align: center; padding: 30px; color: #999; }
+    </style>
+</head>
+<body>
+<h2>🏢 All Companies</h2>
+<div class="back">
+    <a href="/admin/dashboard">← Back to Dashboard</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Company</th>
+        <th>Package (LPA)</th>
+        <th>Min CGPA</th>
+        <th>Max Backlogs</th>
+        <th>Eligible Branches</th>
+        <th>Website</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(companies)}">
+        <td colspan="7" class="empty">No companies added yet!</td>
+    </tr>
+    <tr th:each="company : ${companies}">
+        <td th:text="${company.id}"></td>
+        <td th:text="${company.name}"></td>
+        <td th:text="${company.packageOffered}"></td>
+        <td th:text="${company.minCgpa}"></td>
+        <td th:text="${company.maxBacklogs}"></td>
+        <td th:text="${company.eligibleBranches}"></td>
+        <td>
+            <a th:href="${company.website}"
+               target="_blank" th:text="${company.website}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
