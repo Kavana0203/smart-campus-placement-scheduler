@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Placement Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .blue { color: #2196F3; }
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .purple { color: #9C27B0; }
+        .orange { color: #FF9800; }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .chart-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .nav {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            padding: 8px 16px;
+            background: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .nav a:hover { background: #1976D2; }
+    </style>
+</head>
+<body>
+
+<h1>🎓 Smart Campus Placement Dashboard</h1>
+
+<!-- Navigation -->
+<div class="nav">
+    <a href="/student/register">Add Student</a>
+    <a href="/admin/students">All Students</a>
+    <a href="/admin/company/add">Add Company</a>
+    <a href="/admin/companies">All Companies</a>
+    <a href="/admin/drive/schedule">Schedule Drive</a>
+    <a href="/admin/drives">All Drives</a>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>Total Students</h3>
+        <div class="number blue" th:text="${totalStudents}">0</div>
+    </div>
+    <div class="stat-card">
+        <h3>Placed Students</h3>
+        <div class="number green" th:text="${placedStudents}">0</div>
+    </div>
+    <div class="stat-card">
+        <h3>Unplaced Students</h3>
+        <div class="number red" th:text="${unplacedStudents}">0</div>
+    </div>
+    <div class="stat-card">
+        <h3>Total Companies</h3>
+        <div class="number purple" th:text="${totalCompanies}">0</div>
+    </div>
+    <div class="stat-card">
+        <h3>Total Drives</h3>
+        <div class="number orange" th:text="${totalDrives}">0</div>
+    </div>
+    <div class="stat-card">
+        <h3>Upcoming Drives</h3>
+        <div class="number blue" th:text="${upcomingDrives}">0</div>
+    </div>
+    <div class="stat-card">
+        <h3>Completed Drives</h3>
+        <div class="number green" th:text="${completedDrives}">0</div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="charts-grid">
+
+    <!-- Placement Status Chart -->
+    <div class="chart-card">
+        <h3>📊 Placement Status</h3>
+        <canvas id="placementChart"></canvas>
+    </div>
+
+    <!-- Branch wise Chart -->
+    <div class="chart-card">
+        <h3>🌿 Students by Branch</h3>
+        <canvas id="branchChart"></canvas>
+    </div>
+
+    <!-- Drive Status Chart -->
+    <div class="chart-card">
+        <h3>📅 Drive Status</h3>
+        <canvas id="driveChart"></canvas>
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+    // Placement Status Pie Chart
+    const placedCount = [[${placedStudents}]];
+    const unplacedCount = [[${unplacedStudents}]];
+
+    new Chart(document.getElementById('placementChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Placed', 'Unplaced'],
+            datasets: [{
+                data: [placedCount, unplacedCount],
+                backgroundColor: ['#4CAF50', '#f44336']
+            }]
+        }
+    });
+
+    // Branch wise Bar Chart
+    const branchStats = [[${branchStats}]];
+    const branchLabels = Object.keys(branchStats);
+    const branchData = Object.values(branchStats);
+
+    new Chart(document.getElementById('branchChart'), {
+        type: 'bar',
+        data: {
+            labels: branchLabels,
+            datasets: [{
+                label: 'Students',
+                data: branchData,
+                backgroundColor: '#2196F3'
+            }]
+        }
+    });
+
+    // Drive Status Doughnut Chart
+    const upcomingDrives = [[${upcomingDrives}]];
+    const completedDrives = [[${completedDrives}]];
+
+    new Chart(document.getElementById('driveChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Upcoming', 'Completed'],
+            datasets: [{
+                data: [upcomingDrives, completedDrives],
+                backgroundColor: ['#2196F3', '#4CAF50']
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>

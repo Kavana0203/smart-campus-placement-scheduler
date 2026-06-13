@@ -45,4 +45,26 @@ public class StudentService {
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
+    // Total students count
+    public long getTotalStudents() {
+        return studentRepository.count();
+    }
+
+    // Total placed students
+    public long getTotalPlacedStudents() {
+        return studentRepository.findAll()
+                .stream()
+                .filter(Student::isPlaced)
+                .count();
+    }
+
+    // Branch wise student count
+    public java.util.Map<String, Long> getStudentsByBranch() {
+        return studentRepository.findAll()
+                .stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                        Student::getBranch,
+                        java.util.stream.Collectors.counting()
+                ));
+    }
 }

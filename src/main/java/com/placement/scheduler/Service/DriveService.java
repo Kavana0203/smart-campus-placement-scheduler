@@ -76,4 +76,18 @@ public class DriveService {
         }
         return eligibleDrives;
     }
+    // Total drives count
+    public long getTotalDrives() {
+        return driveRepository.count();
+    }
+
+    // Upcoming drives count
+    public long getUpcomingDrivesCount() {
+        return driveRepository.findByStatus("UPCOMING").size();
+    }
+
+    // Completed drives count
+    public long getCompletedDrivesCount() {
+        return driveRepository.findByStatus("COMPLETED").size();
+    }
 }
