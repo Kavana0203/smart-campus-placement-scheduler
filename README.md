@@ -75,7 +75,7 @@ http://localhost:8080/admin/dashboard
 
 Page                          |     URL
 ------------------------------------------------------------------------
-🏠 Dashboardhttp:             | //localhost:8080/admin/dashboard
+🏠 Dashboard                  | https://localhost:8080/admin/dashboard
 👤 Student Registration       | http://localhost:8080/student/register
 👥 All Students               | http://localhost:8080/admin/students
 🏢 Add Company                | http://localhost:8080/admin/company/add
